@@ -32,8 +32,8 @@ public class StudentListContoroller {
 	public List<StudentDetails> findAll(){
 		List<StudentDetails> studentDetailsList = new ArrayList<StudentDetails>();
 		for (Student student : students) {
-			StudentInfo studentInfo = restTemplate.getForObject("http://localhost:8082/student-info?index="+student.getIndex(), StudentInfo.class);
-			StudentGradesDto studentGradesDto = restTemplate.getForObject("http://localhost:8083/student-grades?index="+student.getIndex(), StudentGradesDto.class);
+			StudentInfo studentInfo = restTemplate.getForObject("http://student-info/student-info?index="+student.getIndex(), StudentInfo.class);
+			StudentGradesDto studentGradesDto = restTemplate.getForObject("http://student-grades/student-grades?index="+student.getIndex(), StudentGradesDto.class);
 			studentDetailsList.add(buildStudentDetails(student, studentInfo, studentGradesDto));
 		}
 		return studentDetailsList;
@@ -43,8 +43,8 @@ public class StudentListContoroller {
 	public StudentDetails findByIndex(@RequestParam("index") String index) throws Exception {
 		Student student = students.stream().filter(e -> e.getIndex().equals(index)).findFirst()
 				.orElseThrow(() -> new Exception("Nije pronađen student sa indexom: "+index+"!"));
-		StudentInfo studentInfo = restTemplate.getForObject("http://localhost:8082/student-info?index="+student.getIndex(), StudentInfo.class);
-		StudentGradesDto studentGradesDto = restTemplate.getForObject("http://localhost:8083/student-grades?index="+student.getIndex(), StudentGradesDto.class);
+		StudentInfo studentInfo = restTemplate.getForObject("http://student-info/student-info?index="+student.getIndex(), StudentInfo.class);
+		StudentGradesDto studentGradesDto = restTemplate.getForObject("http://student-grades/student-grades?index="+student.getIndex(), StudentGradesDto.class);
 		return buildStudentDetails(student, studentInfo, studentGradesDto);
 	}
 	
